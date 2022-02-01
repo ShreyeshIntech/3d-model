@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/three-orbitcontrols@2.110.3/OrbitControls.min.js"></script> -->
+<!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
+    <script>
+     let scene,camera,renderer;
+
+scene=new THREE.Scene()
+scene.background= new THREE.Color(0xff0000) 
+
+camera= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight);
+camera.position.set(0,100,1000);
+
+renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.body.appendChild(renderer.domElement)
+
+let controls = new THREE.OrbitControls(camera,renderer.domElement)
+controls.update()
+
+let abint = new THREE.AmbientLight(0xff0000,0)
+scene.add(abint)
+
+const loader = new THREE.GLTFLoader();
+
+loader.load( 'models/scene.gltf', function ( gltf ) {
+    scene.add(gltf.scenes)
+})
+
+window.addEventListener('resize',function(){
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    camera.aspect= window.innerWidth/window.innerHeight
+})
+
+function animate(){
+    requestAnimationFrame(animate);
+    renderer.render(scene,camera)
+
+}
+
+animate()
+
+
+    </script>
+</body>
+</html>
